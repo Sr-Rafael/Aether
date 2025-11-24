@@ -5,7 +5,7 @@ use std::error::Error;
 use std::env; // Para a ler a entrada no terminal
 
 // === Inclusão de arquivos ===
-mod listagem;
+mod includes;
 
 // === Inicio da main, função principal, que orquestrará tudo. ===
 fn main() -> Result<(), Box<dyn Error>> {
@@ -27,7 +27,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
   /// === Notifica o início da varredura e passa o caminho para o "responsáveç" ===
   println!("--- Aether: Varredura de arquivos iniciada!\n");
-  let arquivos_encontrados = listagem::list_files(caminho)?;
+  let arquivos_encontrados = includes::list_files(caminho)?;
 
   // === Retorna sucesso em caso de der certo ===
   Ok(())
