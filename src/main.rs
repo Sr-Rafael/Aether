@@ -29,6 +29,28 @@ fn main() -> Result<(), Box<dyn Error>> {
   println!("--- Aether: Varredura de arquivos iniciada!\n");
   let arquivos_encontrados = includes::listagem::list_files(caminho)?;
 
+  // __ TEMPORARIO, PARA O COMPILADOR NÃO RECLAMAR __
+  println!("Total de arquivos encontrados: {}\n", arquivos_encontrados.len());
+  // __ __
+
+  // === Chama a função de agrupamento ===
+  println!("\n--- Iniciando agrupamento por tamanho ---");
+  let grupos_tamahos = includes::filtro_tamanho::agrupar_por_tamanho(arquivos_encontrados);
+
+  // __ Exibe quantos agrupamentos foi realizado __
+  println!("\nAgrupamento concluído!\n");
+  
+  // Exibe quantos grupos tem
+  println!("Total de tamanhos diferente foi: {}", grupos_tamahos.len());
+
+  let mut potencial_duplicatas_tamanho = 0;
+  for (_tamanho, lista) in &grupos_tamahos {
+    if lista.len() > 1 {
+      potencial_duplicatas_tamanho += lista.len();
+    }
+  }
+  println!("Arquivos que contém o mesmo tamanho: {}", potencial_duplicatas_tamanho);
+
   // === Retorna sucesso em caso de der certo ===
   Ok(())
 }
