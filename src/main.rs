@@ -25,9 +25,9 @@ fn main() -> Result<(), Box<dyn Error>> {
   let caminho = &argumentos[1];
   println!("Caminho de destino detectado: {}\n", caminho);
 
-  /// === Notifica o início da varredura e passa o caminho para o "responsáveç" ===
+  // === Notifica o início da varredura e passa o caminho para o "responsáveç" ===
   println!("--- Aether: Varredura de arquivos iniciada!\n");
-  let arquivos_encontrados = includes::list_files(caminho)?;
+  let arquivos_encontrados = includes::listagem::list_files(caminho)?;
 
   // === Retorna sucesso em caso de der certo ===
   Ok(())
