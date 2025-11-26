@@ -3,6 +3,8 @@
 // === Inclusão das dependencias externas ===
 use std::error::Error;
 use std::env; // Para a ler a entrada no terminal
+use std::collections::HashMap;
+use std::path::PathBuf;
 
 // === Inclusão de arquivos ===
 mod includes;
@@ -31,7 +33,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
   // __ TEMPORARIO, PARA O COMPILADOR NÃO RECLAMAR __
   println!("Total de arquivos encontrados: {}\n", arquivos_encontrados.len());
-  // __ __
 
   // === Chama a função de agrupamento ===
   println!("\n--- Iniciando agrupamento por tamanho ---");
@@ -49,7 +50,26 @@ fn main() -> Result<(), Box<dyn Error>> {
       potencial_duplicatas_tamanho += lista.len();
     }
   }
-  println!("Arquivos que contém o mesmo tamanho: {}", potencial_duplicatas_tamanho);
+  println!("Arquivos que contém o mesmo tamanho: {}\n", potencial_duplicatas_tamanho);
+
+  // Exibe quantos arquivos com hashers iniciais parecidos tem
+  println!("\n--- Iniciando agrupamento por Hash curto 4Kb (SHA0512) ---\n");
+
+  // Chama a função e passa o antigo agrupamento para a função de calculo de hash curto
+  let grupos_hash_curto: HashMap<String, Vec<PathBuf>> = includes::filtro_hash_curto::agrupar_por_hash(grupos_tamahos);
+  println!("Agrupamento concluído!\n");
+
+  // Conta os arquivos duplicados, com hashers parecidos
+  let mut potencial_duplicatas_hash = 0;
+  for (_hash, list) in &grupos_hash_curto {
+    if list.len() > 1 {
+      potencial_duplicatas_hash += list.len();
+    }
+  }
+
+  // Exibe a quantidade de arquivos com hashers parecidos
+  println!("Arquivos que contém o mesmo hasher inicial: {}", potencial_duplicatas_hash);
+  // __ __
 
   // === Retorna sucesso em caso de der certo ===
   Ok(())
